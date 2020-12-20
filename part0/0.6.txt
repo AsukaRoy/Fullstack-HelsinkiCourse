@@ -1,0 +1,12 @@
+title new note
+
+note over browser:
+browser uses the JavaScript fetched from the server to post new notes.
+end note
+
+browser->server: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+server-->browser: response with HTTP status code 201
+  
+
+
