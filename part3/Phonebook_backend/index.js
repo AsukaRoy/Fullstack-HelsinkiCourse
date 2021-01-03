@@ -1,7 +1,26 @@
 const express = require('express')
+const morgan = require('morgan')
+
 const app = express()
 
 app.use(express.json())
+
+
+morgan.token('body', function(req, res) {
+    return JSON.stringify(req.body);
+});
+
+
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+
+
 
 let persons = [
     {
@@ -68,7 +87,6 @@ function getRandomInt(max) {
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
-    console.log(body);
     if (!body.name) {
         return response.status(400).json({
             error: 'content missing'
@@ -82,7 +100,7 @@ app.post('/api/persons', (request, response) => {
     else {
         const person = {
             name: body.name,
-            number: getRandomInt(10000000),
+            number: body.number || getRandomInt(10000000),
             id: generateId(),
         }
         persons = persons.concat(person)
@@ -90,6 +108,9 @@ app.post('/api/persons', (request, response) => {
         response.json(person)
     }
 })
+
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {
