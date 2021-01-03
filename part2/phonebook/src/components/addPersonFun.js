@@ -1,15 +1,17 @@
 import axios from 'axios'
 import personServices from '../services/persons'
-const addPersonFun = ({ persons, newName, newNumber, setPersons, setNewName, setNewNumber }) => {
+
+const addPersonFun = ({ persons, newName, newNumber, logMessage, setPersons, setNewName, setNewNumber, setLogMessage }) => {
 
   const addPerson = (event) => {
     event.preventDefault()
+
     if (persons.filter(person => person.name === newName).length !== 0) {
-      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(n => n.name === newName)
         const changedPerson = { ...person, number: newNumber }
         personServices
-        .update(person.id, changedPerson)
+          .update(person.id, changedPerson)
           .then(returnedNote => {
             console.log(returnedNote);
             setPersons(persons.map(n => n.name !== newName ? n : returnedNote))
@@ -25,7 +27,15 @@ const addPersonFun = ({ persons, newName, newNumber, setPersons, setNewName, set
         number: newNumber,
         id: persons.length + 1,
       }
-
+      console.log('logMessage');
+      console.log(nameObject.name);
+      setLogMessage(
+        `Added ${newName}`
+      )
+      console.log(logMessage);
+      setTimeout(() => {
+        setLogMessage(null)
+      }, 5000)
       personServices
         .create(nameObject)
         .then(response => {
@@ -50,6 +60,7 @@ const addPersonFun = ({ persons, newName, newNumber, setPersons, setNewName, set
   return (
     <div>
       <h1>add a new</h1>
+
       <form onSubmit={addPerson}>
 
         <div>

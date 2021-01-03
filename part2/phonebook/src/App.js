@@ -4,7 +4,9 @@ import filterFun from './components/filterFun'
 import addPersonFun from './components/addPersonFun'
 import axios from 'axios'
 import personServices from './services/persons'
-
+import LogMessage from './components/LogMessage'
+import Notification from './components/Notification'
+import './index.css'
 const App = () => {
 
   const [persons, setPersons] = useState([])
@@ -12,6 +14,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [logMessage, setLogMessage] = useState('some operations')
+  const [errorMessage, setErrorMessage] = useState('some error happened...')
 
   useEffect(() => {
     console.log('effect')
@@ -24,12 +28,13 @@ const App = () => {
 
   return (
     <div>
-
+      {LogMessage ({logMessage})}
+      <Notification message={errorMessage} />
       {filterFun({ newFilter, setNewFilter, setShowAll })}
 
-      {addPersonFun({ persons, newName, newNumber, setPersons, setNewName, setNewNumber })}
+      {addPersonFun({ persons, newName, newNumber, logMessage, setPersons, setNewName, setNewNumber, setLogMessage})}
 
-      {PersonToShowFun({ persons, newFilter, showAll, setPersons })}
+      {PersonToShowFun({ persons, newFilter, showAll, setPersons, setErrorMessage })}
     </div>
   )
 }
