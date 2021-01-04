@@ -14,8 +14,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
-  const [logMessage, setLogMessage] = useState('some operations')
-  const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [logMessage, setLogMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -32,7 +32,7 @@ const App = () => {
       <Notification message={errorMessage} />
       {filterFun({ newFilter, setNewFilter, setShowAll })}
 
-      {addPersonFun({ persons, newName, newNumber, logMessage, setPersons, setNewName, setNewNumber, setLogMessage})}
+      {addPersonFun({ persons, newName, newNumber, logMessage, setPersons, setNewName, setNewNumber, setLogMessage, setErrorMessage})}
 
       {PersonToShowFun({ persons, newFilter, showAll, setPersons, setErrorMessage })}
     </div>

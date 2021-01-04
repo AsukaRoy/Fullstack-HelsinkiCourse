@@ -1,11 +1,12 @@
 import axios from 'axios'
 import personServices from '../services/persons'
 
-const addPersonFun = ({ persons, newName, newNumber, logMessage, setPersons, setNewName, setNewNumber, setLogMessage }) => {
-
+const addPersonFun = ({ persons, newName, newNumber, logMessage, setPersons, setNewName, setNewNumber, setLogMessage, setErrorMessage }) => {
+  
   const addPerson = (event) => {
+    
     event.preventDefault()
-
+    console.log("test");
     if (persons.filter(person => person.name === newName).length !== 0) {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(n => n.name === newName)
@@ -22,27 +23,33 @@ const addPersonFun = ({ persons, newName, newNumber, logMessage, setPersons, set
 
     }
     else {
+      console.log("test");
       const nameObject = {
         name: newName,
         number: newNumber,
         id: persons.length + 1,
       }
-      console.log('logMessage');
-      console.log(nameObject.name);
-      setLogMessage(
-        `Added ${newName}`
-      )
-      console.log(logMessage);
-      setTimeout(() => {
-        setLogMessage(null)
-      }, 5000)
       personServices
         .create(nameObject)
         .then(response => {
+          setLogMessage(
+            `Added ${newName}`
+          )
+          setTimeout(() => {
+            setLogMessage(null)
+          }, 5000)
           setPersons(persons.concat(nameObject))
           setNewName('')
           setNewNumber('')
+        }).catch(error => {
+          // this is the way to access the error message
+          console.log(error.response.data.error);
+          setErrorMessage(error.response.data.error)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
+        
     }
   }
 
