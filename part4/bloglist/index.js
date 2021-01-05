@@ -1,14 +1,13 @@
-/* eslint-disable no-undef */
+// eslint-disable-next-line no-unused-vars
+const http = require('http')
 const config = require('./utils/config')
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const notesRouter = require('./controllers/notes')
-const middleware = require('./utils/middleware')
-const logger = require('./utils/logger')
 const mongoose = require('mongoose')
-
-logger.info('connecting to', config.MONGODB_URI)
+const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
+const blogsRouter = require('./controllers/blogs')
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => {
@@ -23,10 +22,12 @@ app.use(express.static('build'))
 app.use(express.json())
 app.use(middleware.requestLogger)
 
-app.use('/api/notes', notesRouter)z
+app.use('/api/blogs', blogsRouter)
+
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
+const PORT = config.PORT
 app.listen(PORT, () => {
-    console.log(`Server running on port ${config.PORT}`)
+    logger.info(`Server running on port ${PORT}`)
 })

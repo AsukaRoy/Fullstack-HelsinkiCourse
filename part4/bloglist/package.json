@@ -1,34 +1,28 @@
 {
-  "name": "phonebook_backend",
+  "name": "bloglist",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest --verbose",
-    "build:ui": "rm -rf build && cd ../../part2/example && npm run build --prod && copy -r build ../../part3/example/build",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "proxy": "http://localhost:3001",
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.11.9",
-    "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.17.0",
-    "jest": "^26.6.3",
+    "mongoose": "^5.11.10",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.6"
   },
-  "jest": {
-    "testEnvironment": "node"
+  "devDependencies": {
+    "eslint": "^7.17.0"
   }
 }
