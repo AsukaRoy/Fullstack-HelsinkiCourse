@@ -20,11 +20,7 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema)
 
-const note = new Note({
-  content: 'Callback-functions suck',
-  date: new Date(),
-  important: true,
-})
+
 
 /*
 note.save().then(response => {

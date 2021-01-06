@@ -17,7 +17,7 @@ const totalLikes = (arrayJSON) => {
 
 const favoriteBlog = (arrayJSON) => {
     const array = arrayJSON.map(n => n.likes)
-    const indexOfMaxValue = array.indexOf(Math.max(...array));
+    const indexOfMaxValue = array.indexOf(Math.max(...array))
     return array.length === 0
         ? []
         : arrayJSON[indexOfMaxValue]
