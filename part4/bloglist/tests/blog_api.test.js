@@ -47,6 +47,7 @@ describe('addition of a new note', () => {
         await api
             .post('/api/blogs')
             .send(newBlog)
+            .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpcm8iLCJpZCI6IjVmZjVmMDRiNjdjYTE3MzAyNGZmMGM2NSIsImlhdCI6MTYwOTk1NTQzOX0.J-RnP-qviHVSQphTYe60CD-vwNjAiCkdSaMRAXJOnOg')
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -58,7 +59,21 @@ describe('addition of a new note', () => {
             'Canonical string reduction'
         )
     })
+    test(' adding a blog fails with the proper status code 401 Unauthorized if a token is not provided', async () => {
+        const newBlog = {
+            title: 'Canonical string reduction',
+            author: 'Edsger W. Dijkstra',
+            url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+            likes: 12,
+        }
 
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
+            .expect('Content-Type', /application\/json/)
+
+    })
     test('likes property can be missing', async () => {
         const newBlog = {
             title: 'Go To Statement Considered Harmful',
@@ -68,6 +83,7 @@ describe('addition of a new note', () => {
         await api
             .post('/api/blogs')
             .send(newBlog)
+            .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpcm8iLCJpZCI6IjVmZjVmMDRiNjdjYTE3MzAyNGZmMGM2NSIsImlhdCI6MTYwOTk1NTQzOX0.J-RnP-qviHVSQphTYe60CD-vwNjAiCkdSaMRAXJOnOg')
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
@@ -83,6 +99,7 @@ describe('addition of a new note', () => {
         }
         await api
             .post('/api/blogs')
+            .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpcm8iLCJpZCI6IjVmZjVmMDRiNjdjYTE3MzAyNGZmMGM2NSIsImlhdCI6MTYwOTk1NTQzOX0.J-RnP-qviHVSQphTYe60CD-vwNjAiCkdSaMRAXJOnOg')
             .send(newBlog)
             .expect(400)
     })
@@ -91,8 +108,10 @@ describe('deletion of a blog', () => {
     test('succeeds with status code 204 if id is valid', async () => {
         const blogsAtStart = await helper.blogsInDb()
         const blogToDelete = blogsAtStart[0]
+        console.log(blogToDelete)
         await api
             .delete(`/api/blogs/${blogToDelete.id}`)
+            .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpcm8iLCJpZCI6IjVmZjVmMDRiNjdjYTE3MzAyNGZmMGM2NSIsImlhdCI6MTYwOTk1NTQzOX0.J-RnP-qviHVSQphTYe60CD-vwNjAiCkdSaMRAXJOnOg')
             .expect(204)
 
         const blogsAtEnd = await helper.blogsInDb()
