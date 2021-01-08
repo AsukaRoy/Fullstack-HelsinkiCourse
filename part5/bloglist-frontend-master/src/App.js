@@ -4,19 +4,21 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import LogInfo from './components/LogInfo'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
+import AddBlogForm from './components/BlogFrom'
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  
-  const [username, setUsername] = useState('')
+
+  const [username, setUsername] = useState('firo')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setAuthorChange] = useState('')
-  const [newURL, setURLChange] = useState('')
-  const [newLikes, setLikesChange] = useState('')
+  
 
   const [errorMessage, setErrorMessage] = useState(null)
   const [logMessage, setLogMessage] = useState(null)
+
+  const [loginVisible, setLoginVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -55,29 +57,28 @@ const App = () => {
     }
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
+  const loginForm = () => {
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' }
+    const showWhenVisible = { display: loginVisible ? '' : 'none' }
+    console.log(username);
+    return (
       <div>
-        username
-            <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </div>
       </div>
-      <div>
-        password
-            <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
+    )
+  }
 
   const handleLogOut = async (event) => {
     event.preventDefault()
@@ -94,81 +95,22 @@ const App = () => {
     )
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
-
-    const blogObject = {
-      title: newTitle,
-      author: newAuthor,
-      url: newURL,
-      likes: newLikes
-    }
-
+  const addBlog = (blogObject) => {
     blogService
       .create(blogObject)
       .then(returnedBlogs => {
         setBlogs(blogs.concat(returnedBlogs))
-        setLogMessage(`a new blog ${newTitle} by ${newAuthor} added`)
-        setTimeout(() => {
-          setLogMessage(null)
-        }, 5000)
-        setNewTitle('')
-        setLikesChange('')
-        setLikesChange('')
-        setURLChange('')
       })
-  }
-
-  const handleBlogChange = (event) => {
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setAuthorChange(event.target.value)
-  }
-
-  const handleURLChange = (event) => {
-    setURLChange(event.target.value)
-  }
-
-  const handleLikesChange = (event) => {
-    setLikesChange(event.target.value)
   }
 
 
   const addBlogForm = () => (
-    <form onSubmit={addBlog}>
-      <h2>add a new blog</h2>
-      <div>
-        newTitle
-        <input
-          value={newTitle}
-          onChange={handleBlogChange}
-        />
-      </div>
-      <div>
-      newAuthor
-        <input
-          value={newAuthor}
-          onChange={handleAuthorChange}
-        />
-      </div>
-      <div>
-      newURL
-        <input
-          value={newURL}
-          onChange={handleURLChange}
-        />
-      </div>
-      <div>
-      newLikes
-        <input
-          value={newLikes}
-          onChange={handleLikesChange}
-        />
-      </div>
-      <button type="submit">save</button>
-    </form>
+    <Togglable buttonLabel='new blog'>
+      <AddBlogForm
+        addBlog={addBlog}
+        setLogMessage = {setLogMessage}
+      />
+    </Togglable>
   )
 
 
@@ -191,9 +133,6 @@ const App = () => {
             }
           </div>
       }
-
-
-
     </div>
   )
 }
