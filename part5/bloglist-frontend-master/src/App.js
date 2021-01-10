@@ -7,6 +7,7 @@ import LogInfo from './components/LogInfo'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import AddBlogForm from './components/BlogFrom'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
@@ -20,8 +21,12 @@ const App = () => {
   const [loginVisible, setLoginVisible] = useState(false)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+    blogService
+    .getAll()
+    .then(blogs =>
+      setBlogs(blogs.sort(function (a, b) {
+        return a.likes - b.likes;
+      }))
     )
   }, [])
 

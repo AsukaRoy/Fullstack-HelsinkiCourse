@@ -21,14 +21,9 @@ const create = async newObject => {
 }
 
 const update = (id, object) => {
-
   object.likes += 1
-  console.log(id);
-  console.log(object);
   const request = axios.put(`${baseUrl}/${id}`, object)
-  console.log(request);
   return request.then(response => {
-    console.log(response);
     return response.data
   })
 }
