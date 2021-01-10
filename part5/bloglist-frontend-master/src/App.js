@@ -11,7 +11,7 @@ import AddBlogForm from './components/BlogFrom'
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
-  const [username, setUsername] = useState('firo')
+  const [username, setUsername] = useState('-')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   
@@ -131,7 +131,7 @@ const App = () => {
             <p>{user !== null && addBlogForm()}</p>
             {
               blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs}/>
+                <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs} user={user}/>
               )
             }
           </div>

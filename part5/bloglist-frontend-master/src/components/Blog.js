@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog =  ({ blog , blogs, setBlogs}) => {
+const Blog = ({ blog, blogs, setBlogs, user}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -15,6 +15,8 @@ const Blog =  ({ blog , blogs, setBlogs}) => {
   const hideWhenVisible = { display: blogDetailVisible ? 'none' : '' }
   const showWhenVisible = { display: blogDetailVisible ? '' : 'none' }
 
+
+
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible}>
@@ -22,22 +24,34 @@ const Blog =  ({ blog , blogs, setBlogs}) => {
         <button onClick={() => setBlogDetailVisible(true)}>view</button>
       </div>
       <div style={showWhenVisible}>
-        <div>{blog.title}</div>
+        <div>{blog.title} <button onClick={() => setBlogDetailVisible(false)}>hide</button></div>
         <div>{blog.author}</div>
         <div>{blog.url}</div>
         <div>{blog.likes} <button onClick={() => {
-           blogService
-          .update(blog.id,blog)
-          .then(returnedBlog => {
-            console.log(returnedBlog);
-            console.log(blogs);
-            setBlogs(blogs.map(object => object.id !== blog.id ? object : returnedBlog))
-            console.log(blogs);
-          })
-
+          blogService
+            .update(blog.id, blog)
+            .then(returnedBlog => {
+              setBlogs(blogs.map(object => object.id !== blog.id ? object : returnedBlog))
+            })
         }}>increase likes</button></div>
-        <button onClick={() => setBlogDetailVisible(false)}>cancel</button>
+        
+        <div>
+        {console.log(user)}
+        {console.log(blog.user.username)}
+        {user.username===blog.user.username && <button onClick={() => {
+          
+          if (window.confirm(`Remove blog You're NOT goona need it! by ${blog.author}?`)) {
+            blogService
+              .remove(blog.id)
+              .then(() => {
+                setBlogs(blogs.filter(object => object.id !== blog.id))
+              })
+          }
+        }}>remove</button>}
+        </div>
+        
       </div>
+
     </div>
   )
 }

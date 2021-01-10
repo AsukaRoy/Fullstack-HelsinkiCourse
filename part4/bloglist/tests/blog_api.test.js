@@ -112,7 +112,7 @@ describe('deletion of a blog', () => {
         await api
             .delete(`/api/blogs/${blogToDelete.id}`)
             .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZpcm8iLCJpZCI6IjVmZjVmMDRiNjdjYTE3MzAyNGZmMGM2NSIsImlhdCI6MTYwOTk1NTQzOX0.J-RnP-qviHVSQphTYe60CD-vwNjAiCkdSaMRAXJOnOg')
-            .expect(204)
+            .expect(201)
 
         const blogsAtEnd = await helper.blogsInDb()
 
