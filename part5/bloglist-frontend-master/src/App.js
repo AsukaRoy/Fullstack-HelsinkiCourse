@@ -14,7 +14,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   
-
   const [errorMessage, setErrorMessage] = useState(null)
   const [logMessage, setLogMessage] = useState(null)
 
@@ -103,7 +102,6 @@ const App = () => {
       })
   }
 
-
   const addBlogForm = () => (
     <Togglable buttonLabel='new blog'>
       <AddBlogForm
@@ -112,8 +110,6 @@ const App = () => {
       />
     </Togglable>
   )
-
-
 
   return (
     <div>
