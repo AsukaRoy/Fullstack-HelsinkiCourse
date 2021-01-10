@@ -28,7 +28,7 @@ const update = (id, object) => {
   })
 }
 
-const remove = (id, object) => {
+const remove = (id) => {
   const config = {
     headers: { Authorization: token },
   }
