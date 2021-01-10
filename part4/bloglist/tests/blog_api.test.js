@@ -129,19 +129,19 @@ describe('deletion of a blog', () => {
 describe('change likes of a blog', () => {
     test('succeeds with status code 204 if id is valid', async () => {
         const newBlog = {
-            likes: 50
+            likes: 20
         }
         const blogsAtStart = await helper.blogsInDb()
         const blogToUpdate = blogsAtStart[0]
         await api
             .put(`/api/blogs/${blogToUpdate.id}`)
             .send(newBlog)
-            .expect(204)
+            .expect(201)
 
         const blogsAtEnd = await helper.blogsInDb()
         const blogUpdated = blogsAtEnd[0]
 
-
+        console.log(blogUpdated)
         expect(blogUpdated.likes).toBe(newBlog.likes)
     })
 })

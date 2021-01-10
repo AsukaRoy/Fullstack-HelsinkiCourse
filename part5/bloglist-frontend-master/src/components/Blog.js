@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
-
-const Blog = ({ blog }) => {
+const Blog =  ({ blog , blogs, setBlogs}) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -25,7 +25,17 @@ const Blog = ({ blog }) => {
         <div>{blog.title}</div>
         <div>{blog.author}</div>
         <div>{blog.url}</div>
-        <div>{blog.likes}</div>
+        <div>{blog.likes} <button onClick={() => {
+           blogService
+          .update(blog.id,blog)
+          .then(returnedBlog => {
+            console.log(returnedBlog);
+            console.log(blogs);
+            setBlogs(blogs.map(object => object.id !== blog.id ? object : returnedBlog))
+            console.log(blogs);
+          })
+
+        }}>increase likes</button></div>
         <button onClick={() => setBlogDetailVisible(false)}>cancel</button>
       </div>
     </div>
