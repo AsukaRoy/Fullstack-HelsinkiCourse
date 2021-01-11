@@ -6,11 +6,11 @@ import AddBlogForm from './BlogFrom'
 
 
 describe('renders content', () => {
-  test('<NoteForm /> updates parent state and calls onSubmit', () => {
+  test('<BlogForm /> updates parent state and calls onSubmit', () => {
     const createBlog = jest.fn()
     const setLogMessage = jest.fn()
     const component = render(
-      <AddBlogForm createNote={createBlog} setLogMessage={setLogMessage}/>
+      <AddBlogForm createBlog={createBlog} setLogMessage={setLogMessage}/>
     )
 
     const form = component.container.querySelector('form')
@@ -29,12 +29,12 @@ describe('renders content', () => {
       target: { value: 'http://blog.cleancoder.com/' }
     })
     fireEvent.change(input_4, {
-      target: { value: 8 }
+      target: { value: '8' }
     })
     fireEvent.submit(form)
 
     expect(createBlog.mock.calls).toHaveLength(1)
-    expect(createBlog.mock.calls[0][0].content).toBe('testing of forms could be easier' )
-    expect(createBlog.mock.calls[0][0].content).toBe('Ito' )
+    expect(createBlog.mock.calls[0][0].title).toBe('testing of forms could be easier' )
+
   })
 })
