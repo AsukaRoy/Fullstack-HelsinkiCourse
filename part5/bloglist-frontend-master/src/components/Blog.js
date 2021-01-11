@@ -20,11 +20,14 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible}>
-        <div>{blog.title} | {blog.author}</div>
+        <li className='hiddenWhenVisibleBlog'>{blog.title} | {blog.author}</li>
         <button onClick={() => setBlogDetailVisible(true)}>view</button>
       </div>
-      <div style={showWhenVisible}>
-        <div>{blog.title} <button onClick={() => setBlogDetailVisible(false)}>hide</button></div>
+      <div className="showWhenVisibleBlog" style={showWhenVisible}>
+        <div>
+          {blog.title}
+          <button onClick={() => setBlogDetailVisible(false)}>hide</button>
+        </div>
         <div>{blog.author}</div>
         <div>{blog.url}</div>
         <div>{blog.likes} <button onClick={() => {
@@ -36,8 +39,6 @@ const Blog = ({ blog, blogs, setBlogs, user }) => {
         }}>increase likes</button></div>
 
         <div>
-          {console.log(user)}
-          {console.log(blog.user.username)}
           {user.username === blog.user.username && <button onClick={() => {
 
             if (window.confirm(`Remove blog You're NOT goona need it! by ${blog.author}?`)) {
