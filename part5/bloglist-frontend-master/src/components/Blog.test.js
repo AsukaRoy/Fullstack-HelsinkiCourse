@@ -1,11 +1,11 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render , fireEvent } from '@testing-library/react'
-import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
 
 describe('renders content', () => {
   let component
+  let mockHandler
   beforeEach(() => {
     const Blogs = [
       {
@@ -35,8 +35,9 @@ describe('renders content', () => {
     }
 
     const setBlogs = jest.fn()
+    mockHandler = jest.fn()
     component = render(
-      <Blog blog={blog} blogs={Blogs} setBlogs={setBlogs} user='firo'/>,
+      <Blog blog={blog} blogs={Blogs} setBlogs={setBlogs} user='firo' toggleImportance={mockHandler}/>,
     )
   })
 
@@ -70,6 +71,14 @@ describe('renders content', () => {
     expect(component.container).toHaveTextContent(
       'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     )
+    expect(component.container).toHaveTextContent(
+      10,
+    )
+  })
+
+  test('if the like button is clicked twice, the event handler the component received as props is called twice.', () => {
+    const button = component.getByText('increase likes')
+    fireEvent.click(button)
     expect(component.container).toHaveTextContent(
       10,
     )

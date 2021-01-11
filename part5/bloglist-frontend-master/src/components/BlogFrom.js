@@ -47,19 +47,19 @@ const AddBlogForm = ({ createBlog, setLogMessage }) => {
       <h2>add a new blog</h2>
       <div>
         newTitle
-        <input value={newTitle} onChange={handleTitleChange} />
+        <input className='input1' value={newTitle} onChange={handleTitleChange} />
       </div>
       <div>
         newAuthor
-        <input value={newAuthor} onChange={handleAuthorChange} />
+        <input  className='input2' value={newAuthor} onChange={handleAuthorChange} />
       </div>
       <div>
         newURL
-        <input value={newURL} onChange={handleURLChange} />
+        <input  className='input3' value={newURL} onChange={handleURLChange} />
       </div>
       <div>
         newLikes
-        <input value={newLikes} onChange={handleLikesChange} />
+        <input  className='input4' value={newLikes} onChange={handleLikesChange} />
       </div>
       <button type="submit">save</button>
     </form>
