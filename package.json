@@ -3,6 +3,7 @@
     "redux-devtools-extension": "^2.13.9"
   },
   "dependencies": {
+    "json-server": "^0.16.3",
     "react-redux": "^7.2.4"
   }
 }
