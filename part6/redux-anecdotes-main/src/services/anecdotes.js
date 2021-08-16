@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/anecdotes";
+const baseUrl = "http://localhost:4001/anecdotes";
 
 const getAll = async () => {
   const response = await axios.get(baseUrl);
@@ -13,15 +13,11 @@ const createNew = async (content) => {
     return response.data;
   };
   
-  const addVote = async (id) => {
-      const { data: anecdoteToUpdate } = await axios.get(`${baseUrl}/${id}`);
-      const anecdoteObject = { ...anecdoteToUpdate, votes: anecdoteToUpdate.votes + 1 }
-      const response = await axios.put(`${baseUrl}/${id}`, anecdoteObject);
-      return response.data;
-  }
+const addVote = async (id) => {
+    const { data: anecdoteToUpdate } = await axios.get(`${baseUrl}/${id}`);
+    const anecdoteObject = { ...anecdoteToUpdate, votes: anecdoteToUpdate.votes + 1 }
+    const response = await axios.put(`${baseUrl}/${id}`, anecdoteObject);
+    return response.data;
+}
   
-  export default {
-    getAll,
-    createNew,
-      addVote
-  };
+export default {getAll, createNew, addVote };

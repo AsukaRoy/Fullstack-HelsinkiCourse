@@ -1,32 +1,21 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { addVote } from "../reducers/anecdoteReducer";
 import { setNotification } from "../reducers/notificationReducer";
 import Filter from "./Filter";
 
-const AnecdoteList = () => {
-  const anecdotes = useSelector((state) => {
-    // Filter
-    const filteredAnecdotes = state.anecdotes.filter((a) => {
-      return a.content.toLowerCase().includes(state.filter.toLowerCase());
-    });
-    // Sort
-    return filteredAnecdotes.sort((a, b) => b.votes - a.votes);
-  });
-
-  const dispatch = useDispatch();
-  
+const AnecdoteList = (props) => {
   const vote = (id) => {
-    dispatch(addVote(id));
-    const content = anecdotes.find((a) => a.id === id).content;
+    props.addVote(id);
+    const content = props.anecdotes.find((a) => a.id === id).content;
     // Display message
-    dispatch(setNotification(`You voted for: ${content}`, 5));
+    props.setNotification(`You voted for: ${content}`, 5);
   };
-  
+
   return (
     <div>
       <Filter />
-      {anecdotes.map((anecdote) => (
+      {props.anecdotes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
@@ -35,7 +24,35 @@ const AnecdoteList = () => {
           </div>
         </div>
       ))}
-
-    </div>  );
+    </div>
+  );
 };
-export default AnecdoteList;
+
+const mapStateToProps = (state) => {
+  if (state.filter === "") {
+    return {
+      anecdotes: state.anecdotes.sort((a, b) => b.votes - a.votes),
+    };
+  }
+
+  const filterAnecdotes = (anecdote) =>
+    anecdote.content.toLowerCase().includes(state.filter.toLowerCase());
+
+  return {
+    anecdotes: state.anecdotes
+      .filter(filterAnecdotes)
+      .sort((a, b) => b.votes - a.votes),
+  };
+};
+
+const mapDispatchToProps = {
+  setNotification,
+  addVote,
+};
+
+const connectedAnecdoteList = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList);
+
+export default connectedAnecdoteList;
