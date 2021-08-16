@@ -1,7 +1,15 @@
+import React from 'react'
+import Notes from './components/Notes'
+import NewNote from './components/NewNote'
 
-function App() {
-  return (""
+const App = () => {
+
+  return (
+    <div>
+      <NewNote />
+      <Notes  />
+    </div>
   )
 }
 
-export default App;
+export default App
