@@ -42,17 +42,14 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "NEW_ANECDOTE":
       return [...state, action.data];
-
     case "ADD_VOTE":
       return state.map((anecdote) =>
         anecdote.id === action.data.id
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote
       );
-
     default:
       return state;
   }
 };
-
 export default reducer;
