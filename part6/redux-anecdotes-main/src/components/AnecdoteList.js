@@ -6,19 +6,19 @@ import Filter from "./Filter";
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => {
     // Filter
-    const filteredAnecdotes = state.anecdotes.filter((a) =>
-      a.content.toLowerCase().includes(state.filter.toLowerCase())
-    );
+    const filteredAnecdotes = state.anecdotes.filter((a) => {
+      return a.content.toLowerCase().includes(state.filter.toLowerCase());
+    });
     // Sort
     return filteredAnecdotes.sort((a, b) => b.votes - a.votes);
   });
 
   const dispatch = useDispatch();
-
+  
   const vote = (id) => {
     dispatch(addVote(id));
   };
-
+  
   return (
     <div>
       <Filter />
@@ -31,7 +31,7 @@ const AnecdoteList = () => {
           </div>
         </div>
       ))}
-    </div>
-  );
+
+    </div>  );
 };
 export default AnecdoteList;
